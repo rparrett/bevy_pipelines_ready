@@ -11,8 +11,12 @@ enum GameState {
 #[derive(Component)]
 struct LoadingOnly;
 
+// This value should be found experimentally by logging `PipelinesReady` in your app
+// during normal use and noting the maximum value.
 #[cfg(not(target_arch = "wasm32"))]
 const EXPECTED_PIPELINES: usize = 7;
+// The value will likely differ on the web due to different implementations of some
+// render features.
 #[cfg(target_arch = "wasm32")]
 const EXPECTED_PIPELINES: usize = 4;
 
@@ -32,6 +36,8 @@ fn main() {
         .run();
 }
 
+// Your loading screen should include all of the cameras, lights, and other elements that cause
+// pipelines to be built in your app.
 fn setup_loading_screen(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
