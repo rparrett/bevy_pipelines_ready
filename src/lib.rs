@@ -13,7 +13,7 @@ pub struct PipelinesReadyPlugin;
 struct PipelinesReadyChannel(Receiver<usize>);
 
 /// A `Resource` in the main world that stores the number of pipelines that are ready.
-#[derive(Resource, Default)]
+#[derive(Resource, Default, Debug)]
 pub struct PipelinesReady(usize);
 impl PipelinesReady {
     /// Returns the number of pipelines that are ready.
