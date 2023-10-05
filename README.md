@@ -4,7 +4,7 @@
 [![docs](https://docs.rs/bevy_pipelines_ready/badge.svg)](https://docs.rs/bevy_pipelines_ready)
 [![Bevy tracking](https://img.shields.io/badge/Bevy%20tracking-released%20version-lightblue)](https://github.com/bevyengine/bevy/blob/main/docs/plugins_guidelines.md#main-branch-tracking)
 
-A very simple Bevy plugin that counts the number of render pipelines that are ready and makes that data available as a resource in the main world.
+A tiny Bevy plugin that counts the number of render pipelines that are ready and makes that data available as a resource in the main world.
 
 This is useful for creating a nice loading experience for your Bevy app, especially on the web where execution is single-threaded and pipeline building is disruptive.
 
