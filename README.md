@@ -14,8 +14,9 @@ See [`examples/states.rs`](examples/states.rs).
 
 ## Compatibility
 
-| `bevy_pipelines_ready` | `bevy` |
+| `bevy_pipelines_ready`   | `bevy` |
 | :--                      | :--    |
+| `0.2`                    | `0.12` |
 | `0.1`                    | `0.11` |
 
 ## Contributing

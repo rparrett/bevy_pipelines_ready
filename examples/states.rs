@@ -14,11 +14,11 @@ struct LoadingOnly;
 // This value should be found experimentally by logging `PipelinesReady` in your app
 // during normal use and noting the maximum value.
 #[cfg(not(target_arch = "wasm32"))]
-const EXPECTED_PIPELINES: usize = 7;
+const EXPECTED_PIPELINES: usize = 8;
 // The value will likely differ on the web due to different implementations of some
 // render features.
 #[cfg(target_arch = "wasm32")]
-const EXPECTED_PIPELINES: usize = 4;
+const EXPECTED_PIPELINES: usize = 5;
 
 fn main() {
     App::new()
