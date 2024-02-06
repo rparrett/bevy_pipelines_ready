@@ -12,10 +12,23 @@ This is useful for creating a nice loading experience for your Bevy app, especia
 
 See [`examples/states.rs`](examples/states.rs).
 
+## WebGL2 and WebGPU
+
+Install [wasm-server-runner](https://github.com/jakobhellermann/wasm-server-runner).
+
+```bash
+# WebGL
+cargo run --example states --target=wasm32-unknown-unknown --features=bevy/webgl2
+
+# WebGPU
+RUSTFLAGS=--cfg=web_sys_unstable_apis cargo run --example states --target=wasm32-unknown-unknown --features=bevy/webgpu
+```
+
 ## Compatibility
 
 | `bevy_pipelines_ready`   | `bevy` |
 | :--                      | :--    |
+| `0.3`                    | `0.13` |
 | `0.2`                    | `0.12` |
 | `0.1`                    | `0.11` |
 

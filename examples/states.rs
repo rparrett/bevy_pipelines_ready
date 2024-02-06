@@ -18,19 +18,19 @@ const EXPECTED_PIPELINES: usize = 8;
 // The value will likely differ on the web due to different implementations of some
 // render features.
 #[cfg(target_arch = "wasm32")]
-const EXPECTED_PIPELINES: usize = 5;
+const EXPECTED_PIPELINES: usize = 6;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugins(PipelinesReadyPlugin)
-        .add_state::<GameState>()
+        .init_state::<GameState>()
         .add_systems(Startup, setup_loading_screen)
         .add_systems(
             Update,
             transition
                 .run_if(in_state(GameState::Loading))
-                .run_if(resource_changed::<PipelinesReady>()),
+                .run_if(resource_changed::<PipelinesReady>),
         )
         .add_systems(OnExit(GameState::Loading), cleanup::<LoadingOnly>)
         .run();
@@ -51,6 +51,7 @@ fn setup_loading_screen(
     commands.spawn(PointLightBundle {
         point_light: PointLight {
             shadows_enabled: true,
+            intensity: 48_000.,
             ..default()
         },
         transform: Transform::from_xyz(3.0, 6.0, 5.0),
@@ -58,14 +59,14 @@ fn setup_loading_screen(
     });
 
     commands.spawn(PbrBundle {
-        mesh: meshes.add(shape::Cylinder::default().into()),
-        material: materials.add(Color::PINK.into()),
+        mesh: meshes.add(Cylinder::default()),
+        material: materials.add(Color::PINK),
         ..default()
     });
 
     commands.spawn(PbrBundle {
-        mesh: meshes.add(shape::Plane::from_size(10.0).into()),
-        material: materials.add(Color::rgb(0.4, 0.4, 0.4).into()),
+        mesh: meshes.add(Plane3d::default().mesh().size(10.0, 10.0)),
+        material: materials.add(Color::rgb(0.4, 0.4, 0.4)),
         transform: Transform::from_xyz(0., -0.5, 0.),
         ..default()
     });
