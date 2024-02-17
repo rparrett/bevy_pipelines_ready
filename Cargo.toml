@@ -1,6 +1,6 @@
 [package]
 name = "bevy_pipelines_ready"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "Bevy plugin for tracking render pipeline status."
@@ -15,17 +15,15 @@ exclude = [".github"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies.bevy]
-version = "0.12"
+version = "0.13"
 default-features = false
-features = [
-    "bevy_render"
-]
+features = ["bevy_render"]
 
 [dependencies]
 crossbeam-channel = "0.5.0"
 
 [dev-dependencies.bevy]
-version = "0.12"
+version = "0.13"
 default-features = false
 features = [
     "android_shared_stdcxx",
