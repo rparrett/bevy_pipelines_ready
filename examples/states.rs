@@ -51,7 +51,7 @@ fn setup_loading_screen(
     commands.spawn(PointLightBundle {
         point_light: PointLight {
             shadows_enabled: true,
-            intensity: 48_000.,
+            intensity: 1_000_000.,
             ..default()
         },
         transform: Transform::from_xyz(3.0, 6.0, 5.0),
@@ -66,7 +66,7 @@ fn setup_loading_screen(
 
     commands.spawn(PbrBundle {
         mesh: meshes.add(Plane3d::default().mesh().size(10.0, 10.0)),
-        material: materials.add(Color::rgb(0.4, 0.4, 0.4)),
+        material: materials.add(Color::rgb(0.6, 0.6, 0.6)),
         transform: Transform::from_xyz(0., -0.5, 0.),
         ..default()
     });
