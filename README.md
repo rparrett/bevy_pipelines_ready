@@ -21,7 +21,7 @@ Install [wasm-server-runner](https://github.com/jakobhellermann/wasm-server-runn
 cargo run --example states --target=wasm32-unknown-unknown --features=bevy/webgl2
 
 # WebGPU
-RUSTFLAGS=--cfg=web_sys_unstable_apis cargo run --example states --target=wasm32-unknown-unknown --features=bevy/webgpu
+cargo run --example states --target=wasm32-unknown-unknown --features=bevy/webgpu
 ```
 
 ## Compatibility
