@@ -18,10 +18,10 @@ Install [wasm-server-runner](https://github.com/jakobhellermann/wasm-server-runn
 
 ```bash
 # WebGL
-cargo run --example states --target=wasm32-unknown-unknown --features=bevy/webgl2
+cargo run --example states --target=wasm32-unknown-unknown --features=webgl2
 
 # WebGPU
-cargo run --example states --target=wasm32-unknown-unknown --features=bevy/webgpu
+cargo run --example states --target=wasm32-unknown-unknown --features=webgpu
 ```
 
 ## Compatibility

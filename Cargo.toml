@@ -14,8 +14,12 @@ exclude = [".github"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+webgl2 = ["bevy/webgl2"]
+webgpu = ["bevy/webgpu"]
+
 [dependencies.bevy]
-version = "0.13"
+git = "https://github.com/bevyengine/bevy.git"
 default-features = false
 features = ["bevy_render"]
 
@@ -23,7 +27,7 @@ features = ["bevy_render"]
 crossbeam-channel = "0.5.0"
 
 [dev-dependencies.bevy]
-version = "0.13"
+git = "https://github.com/bevyengine/bevy.git"
 default-features = false
 features = [
     "android_shared_stdcxx",
@@ -31,11 +35,12 @@ features = [
     "bevy_core_pipeline",
     "bevy_pbr",
     "bevy_render",
+    "bevy_state",
     "bevy_ui",
     "bevy_winit",
     "default_font",
     "hdr",
-    "multi-threaded",
+    "multi_threaded",
     "tonemapping_luts",
     "ktx2",
     "zstd",
