@@ -26,6 +26,7 @@ fn main() {
         .add_plugins(PipelinesReadyPlugin)
         .init_state::<GameState>()
         .add_systems(Startup, setup_loading_screen)
+        .add_systems(Update, print.run_if(resource_changed::<PipelinesReady>))
         .add_systems(
             Update,
             transition
@@ -77,9 +78,11 @@ fn setup_loading_screen(
     });
 }
 
-fn transition(ready: Res<PipelinesReady>, mut next_state: ResMut<NextState<GameState>>) {
+fn print(ready: Res<PipelinesReady>) {
     info!("Pipelines Ready: {}/{}", ready.get(), EXPECTED_PIPELINES);
+}
 
+fn transition(ready: Res<PipelinesReady>, mut next_state: ResMut<NextState<GameState>>) {
     if ready.get() >= EXPECTED_PIPELINES {
         next_state.set(GameState::Ready);
     }
