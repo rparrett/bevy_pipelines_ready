@@ -5,12 +5,8 @@ use bevy::{
         Render, RenderApp,
     },
 };
-use crossbeam_channel::Receiver;
 
 pub struct PipelinesReadyPlugin;
-
-#[derive(Resource)]
-struct PipelinesReadyChannel(Receiver<usize>);
 
 /// A `Resource` in the main world that stores the number of pipelines that are ready.
 #[derive(Resource, Default, Debug)]
