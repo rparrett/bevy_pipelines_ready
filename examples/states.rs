@@ -14,10 +14,13 @@ struct LoadingOnly;
 // This value should be found experimentally by logging `PipelinesReady` in your app
 // during normal use and noting the maximum value.
 #[cfg(not(target_arch = "wasm32"))]
-const EXPECTED_PIPELINES: usize = 8;
+const EXPECTED_PIPELINES: usize = 10;
 // The value will likely differ on the web due to different implementations of some
 // render features.
-#[cfg(target_arch = "wasm32")]
+#[cfg(all(target_arch = "wasm32", feature = "webgpu", not(feature = "webgl2")))]
+const EXPECTED_PIPELINES: usize = 8;
+// Note: you must add these features to your app. See `Cargo.toml`.
+#[cfg(all(target_arch = "wasm32", feature = "webgl2", not(feature = "webgpu")))]
 const EXPECTED_PIPELINES: usize = 6;
 
 fn main() {
@@ -61,13 +64,13 @@ fn setup_loading_screen(
 
     commands.spawn(PbrBundle {
         mesh: meshes.add(Cylinder::default()),
-        material: materials.add(Color::PINK),
+        material: materials.add(Color::from(bevy::color::palettes::tailwind::PINK_500)),
         ..default()
     });
 
     commands.spawn(PbrBundle {
         mesh: meshes.add(Plane3d::default().mesh().size(10.0, 10.0)),
-        material: materials.add(Color::rgb(0.6, 0.6, 0.6)),
+        material: materials.add(Color::from(Srgba::gray(0.6))),
         transform: Transform::from_xyz(0., -0.5, 0.),
         ..default()
     });
