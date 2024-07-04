@@ -28,6 +28,7 @@ cargo run --example states --target=wasm32-unknown-unknown --features=webgpu
 
 | `bevy_pipelines_ready`   | `bevy` |
 | :--                      | :--    |
+| `0.4`                    | `0.14` |
 | `0.3`                    | `0.13` |
 | `0.2`                    | `0.12` |
 | `0.1`                    | `0.11` |
