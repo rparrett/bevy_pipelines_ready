@@ -2,7 +2,7 @@ use bevy::{
     prelude::*,
     render::{
         render_resource::{CachedPipelineState, PipelineCache},
-        Render, RenderApp,
+        MainWorld, RenderApp,
     },
 };
 
@@ -20,34 +20,24 @@ impl PipelinesReady {
 
 impl Plugin for PipelinesReadyPlugin {
     fn build(&self, app: &mut App) {
-        let (tx, rx) = crossbeam_channel::bounded(1);
-
         app.init_resource::<PipelinesReady>();
 
-        app.add_systems(Update, move |mut ready: ResMut<PipelinesReady>| {
-            let Ok(num) = rx.try_recv() else {
-                return;
-            };
+        app.sub_app_mut(RenderApp)
+            .add_systems(ExtractSchedule, update_pipelines_ready);
+    }
+}
 
-            ready.0 = num;
-        });
+fn update_pipelines_ready(mut main_world: ResMut<MainWorld>, cache: Res<PipelineCache>) {
+    if let Some(mut pipelines_ready) = main_world.get_resource_mut::<PipelinesReady>() {
+        let count = cache
+            .pipelines()
+            .filter(|pipeline| matches!(pipeline.state, CachedPipelineState::Ok(_)))
+            .count();
 
-        let renderer_app = app.sub_app_mut(RenderApp);
+        if pipelines_ready.0 == count {
+            return;
+        }
 
-        let mut current = 0;
-        renderer_app.add_systems(Render, move |cache: Res<PipelineCache>| {
-            let count = cache
-                .pipelines()
-                .filter(|pipeline| matches!(pipeline.state, CachedPipelineState::Ok(_)))
-                .count();
-
-            if current == count {
-                return;
-            }
-
-            let _ = tx.send(count);
-
-            current = count;
-        });
+        pipelines_ready.0 = count;
     }
 }
