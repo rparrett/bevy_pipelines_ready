@@ -38,6 +38,7 @@ features = [
     "bevy_state",
     "bevy_ui",
     "bevy_winit",
+    "bevy_window",
     "default_font",
     "hdr",
     "multi_threaded",
