@@ -8,9 +8,6 @@ enum GameState {
     Ready,
 }
 
-#[derive(Component)]
-struct LoadingOnly;
-
 // This value should be found experimentally by logging `PipelinesReady` in your app
 // during normal use and noting the maximum value.
 #[cfg(not(target_arch = "wasm32"))]
@@ -28,6 +25,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugins(PipelinesReadyPlugin)
         .init_state::<GameState>()
+        .enable_state_scoped_entities::<GameState>()
         .add_systems(Startup, setup_loading_screen)
         .add_systems(Update, print.run_if(resource_changed::<PipelinesReady>))
         .add_systems(
@@ -36,7 +34,6 @@ fn main() {
                 .run_if(in_state(GameState::Loading))
                 .run_if(resource_changed::<PipelinesReady>),
         )
-        .add_systems(OnExit(GameState::Loading), cleanup::<LoadingOnly>)
         .run();
 }
 
@@ -48,37 +45,34 @@ fn setup_loading_screen(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     commands.spawn((
-        TextBundle::from_section("Pipelines loading...".to_string(), TextStyle::default()),
-        LoadingOnly,
+        Text::new("Pipelines loading...".to_string()),
+        StateScoped(GameState::Loading),
     ));
 
-    commands.spawn(PointLightBundle {
-        point_light: PointLight {
+    commands.spawn((
+        PointLight {
             shadows_enabled: true,
             intensity: 1_000_000.,
             ..default()
         },
-        transform: Transform::from_xyz(3.0, 6.0, 5.0),
-        ..default()
-    });
+        Transform::from_xyz(3.0, 6.0, 5.0),
+    ));
 
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Cylinder::default()),
-        material: materials.add(Color::from(bevy::color::palettes::tailwind::PINK_500)),
-        ..default()
-    });
+    commands.spawn((
+        Mesh3d(meshes.add(Cylinder::default())),
+        MeshMaterial3d(materials.add(Color::from(bevy::color::palettes::tailwind::PINK_500))),
+    ));
 
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Plane3d::default().mesh().size(10.0, 10.0)),
-        material: materials.add(Color::from(Srgba::gray(0.6))),
-        transform: Transform::from_xyz(0., -0.5, 0.),
-        ..default()
-    });
+    commands.spawn((
+        Mesh3d(meshes.add(Plane3d::default().mesh().size(10.0, 10.0))),
+        MeshMaterial3d(materials.add(Color::from(Srgba::gray(0.6)))),
+        Transform::from_xyz(0., -0.5, 0.),
+    ));
 
-    commands.spawn(Camera3dBundle {
-        transform: Transform::from_xyz(0.0, 1.5, 3.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..default()
-    });
+    commands.spawn((
+        Camera3d::default(),
+        Transform::from_xyz(0.0, 1.5, 3.0).looking_at(Vec3::ZERO, Vec3::Y),
+    ));
 }
 
 fn print(ready: Res<PipelinesReady>) {
@@ -88,11 +82,5 @@ fn print(ready: Res<PipelinesReady>) {
 fn transition(ready: Res<PipelinesReady>, mut next_state: ResMut<NextState<GameState>>) {
     if ready.get() >= EXPECTED_PIPELINES {
         next_state.set(GameState::Ready);
-    }
-}
-
-fn cleanup<T: Component>(mut commands: Commands, query: Query<Entity, With<T>>) {
-    for entity in query.iter() {
-        commands.entity(entity).despawn_recursive();
     }
 }
