@@ -19,28 +19,10 @@ webgl2 = ["bevy/webgl2"]
 webgpu = ["bevy/webgpu"]
 
 [dependencies.bevy]
-version = "0.15"
+version = "0.16.0-rc.0"
 default-features = false
 features = ["bevy_render"]
 
 [dev-dependencies.bevy]
-version = "0.15"
-default-features = false
-features = [
-    "android_shared_stdcxx",
-    "bevy_asset",
-    "bevy_core_pipeline",
-    "bevy_pbr",
-    "bevy_render",
-    "bevy_state",
-    "bevy_ui",
-    "bevy_winit",
-    "bevy_window",
-    "default_font",
-    "hdr",
-    "multi_threaded",
-    "tonemapping_luts",
-    "ktx2",
-    "zstd",
-    "x11",
-]
+version = "0.16.0-rc.0"
+default-features = true
