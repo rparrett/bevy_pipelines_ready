@@ -15,7 +15,7 @@ const EXPECTED_PIPELINES: usize = 29;
 // The value will likely differ on the web due to different implementations of some
 // render features.
 #[cfg(all(target_arch = "wasm32", feature = "webgpu", not(feature = "webgl2")))]
-const EXPECTED_PIPELINES: usize = 23;
+const EXPECTED_PIPELINES: usize = 14;
 // Note: you must add these features to your app. See `Cargo.toml`.
 #[cfg(all(target_arch = "wasm32", feature = "webgl2", not(feature = "webgpu")))]
 const EXPECTED_PIPELINES: usize = 6;
