@@ -14,14 +14,28 @@ See [`examples/states.rs`](examples/states.rs).
 
 ## WebGL2 and WebGPU
 
-Install [wasm-server-runner](https://github.com/jakobhellermann/wasm-server-runner).
+### Build
 
 ```bash
 # WebGL
-cargo run --example states --target=wasm32-unknown-unknown --features=webgl2
+cargo build --target wasm32-unknown-unknown --example "states" --features="webgl2"
 
 # WebGPU
-cargo run --example states --target=wasm32-unknown-unknown --features=webgpu
+cargo build --target wasm32-unknown-unknown --example "states" --features="webgpu"
+```
+
+### Bindgen
+
+```bash
+mkdir -p examples/wasm/target
+wget https://raw.githubusercontent.com/bevyengine/bevy/refs/tags/v0.15.0/examples/wasm/index.html -O examples/wasm/index.html
+wasm-bindgen --out-dir examples/wasm/target --out-name wasm_example --target web target/wasm32-unknown-unknown/debug/examples/states.wasm
+```
+
+### Serve
+
+```bash
+basic-http-server examples/wasm/
 ```
 
 ## Compatibility
