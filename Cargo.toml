@@ -19,10 +19,10 @@ webgl2 = ["bevy/webgl2"]
 webgpu = ["bevy/webgpu"]
 
 [dependencies.bevy]
-version = "0.16.0-rc.0"
+version = "0.16.0"
 default-features = false
 features = ["bevy_render"]
 
 [dev-dependencies.bevy]
-version = "0.16.0-rc.0"
+version = "0.16.0"
 default-features = true
