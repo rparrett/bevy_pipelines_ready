@@ -1,8 +1,8 @@
 use bevy::{
     prelude::*,
     render::{
-        render_resource::{CachedPipelineState, PipelineCache},
         MainWorld, RenderApp,
+        render_resource::{CachedPipelineState, PipelineCache},
     },
 };
 
