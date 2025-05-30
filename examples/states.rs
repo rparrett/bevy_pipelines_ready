@@ -81,6 +81,11 @@ fn print(ready: Res<PipelinesReady>) {
 
 fn transition(ready: Res<PipelinesReady>, mut next_state: ResMut<NextState<GameState>>) {
     if ready.get() >= EXPECTED_PIPELINES {
+        // Note: you may want to wait an additional period of time or number
+        // of frames after this.
+        //
+        // In my experience, Bevy's framerate seems to take a few seconds to
+        // fully recover after pipelines are compiled when running in Firefox.
         next_state.set(GameState::Ready);
     }
 }
