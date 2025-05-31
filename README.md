@@ -6,7 +6,9 @@
 
 A tiny Bevy plugin that counts the number of render pipelines that are ready and makes that data available as a resource in the main world.
 
-This is useful for creating a nice loading experience for your Bevy app, especially on the web where execution is single-threaded and pipeline building is disruptive.
+Bevy's shaders are compiled on-demand. On native platforms, they are compiled asynchronously, which can create pop-in effects. On the web, they are compiled synchronously in the single-threaded environment, which can cause hitches and can be pretty disastrous if music is playing.
+
+This plugin can help you get your shaders compiled during a loading state where it won't cause as much trouble for your players.
 
 ## Usage
 
