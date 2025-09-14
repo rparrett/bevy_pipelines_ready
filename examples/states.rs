@@ -11,11 +11,11 @@ enum GameState {
 // This value should be found experimentally by logging `PipelinesReady` in your app
 // during normal use and noting the maximum value.
 #[cfg(not(target_arch = "wasm32"))]
-const EXPECTED_PIPELINES: usize = 29;
+const EXPECTED_PIPELINES: usize = 35;
 // The value will likely differ on the web due to different implementations of some
 // render features.
 #[cfg(all(target_arch = "wasm32", feature = "webgpu", not(feature = "webgl2")))]
-const EXPECTED_PIPELINES: usize = 14;
+const EXPECTED_PIPELINES: usize = 20;
 // Note: These features can be simplified if your app only builds for one of either
 // webgpu or webgl2. Simply use `#[cfg(target_arch = "wasm32")]`. If your app builds
 // for both, you must add these features (or similar) to your app. See `Cargo.toml`.
@@ -27,7 +27,6 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugins(PipelinesReadyPlugin)
         .init_state::<GameState>()
-        .enable_state_scoped_entities::<GameState>()
         .add_systems(Startup, setup_loading_screen)
         .add_systems(Update, print.run_if(resource_changed::<PipelinesReady>))
         .add_systems(
@@ -48,7 +47,7 @@ fn setup_loading_screen(
 ) {
     commands.spawn((
         Text::new("Pipelines loading...".to_string()),
-        StateScoped(GameState::Loading),
+        DespawnOnExit(GameState::Loading),
     ));
 
     commands.spawn((
