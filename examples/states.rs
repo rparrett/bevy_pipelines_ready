@@ -22,6 +22,12 @@ const EXPECTED_PIPELINES: usize = 20;
 #[cfg(all(target_arch = "wasm32", feature = "webgl2", not(feature = "webgpu")))]
 const EXPECTED_PIPELINES: usize = 6;
 
+// You may want to wait an additional period of time or number of frames.
+//
+// In my experience, Bevy's framerate seems to take a few seconds to fully recover after
+// pipelines are compiled when running in Firefox.
+const ADDITIONAL_WAIT_FRAMES: u32 = 10;
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
@@ -29,12 +35,7 @@ fn main() {
         .init_state::<GameState>()
         .add_systems(Startup, setup_loading_screen)
         .add_systems(Update, print.run_if(resource_changed::<PipelinesReady>))
-        .add_systems(
-            Update,
-            transition
-                .run_if(in_state(GameState::Loading))
-                .run_if(resource_changed::<PipelinesReady>),
-        )
+        .add_systems(Update, transition.run_if(in_state(GameState::Loading)))
         .run();
 }
 
@@ -80,13 +81,20 @@ fn print(ready: Res<PipelinesReady>) {
     info!("Pipelines Ready: {}/{}", ready.get(), EXPECTED_PIPELINES);
 }
 
-fn transition(ready: Res<PipelinesReady>, mut next_state: ResMut<NextState<GameState>>) {
-    if ready.get() >= EXPECTED_PIPELINES {
-        // Note: you may want to wait an additional period of time or number
-        // of frames after this.
-        //
-        // In my experience, Bevy's framerate seems to take a few seconds to
-        // fully recover after pipelines are compiled when running in Firefox.
-        next_state.set(GameState::Ready);
+fn transition(
+    ready: Res<PipelinesReady>,
+    mut next_state: ResMut<NextState<GameState>>,
+    mut frames_since_pipelines_ready: Local<u32>,
+) {
+    if ready.get() < EXPECTED_PIPELINES {
+        return;
     }
+
+    *frames_since_pipelines_ready += 1;
+
+    if *frames_since_pipelines_ready < ADDITIONAL_WAIT_FRAMES {
+        return;
+    }
+
+    next_state.set(GameState::Ready);
 }
