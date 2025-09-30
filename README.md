@@ -44,6 +44,7 @@ basic-http-server examples/wasm/
 
 | `bevy_pipelines_ready`   | `bevy` |
 | :--                      | :--    |
+| `0.7`                    | `0.17` |
 | `0.6`                    | `0.16` |
 | `0.5`                    | `0.15` |
 | `0.4`                    | `0.14` |
