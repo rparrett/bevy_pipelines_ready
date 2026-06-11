@@ -30,7 +30,7 @@ cargo build --target wasm32-unknown-unknown --example "states" --features="webgp
 
 ```bash
 mkdir -p examples/wasm/target
-wget https://raw.githubusercontent.com/bevyengine/bevy/refs/tags/v0.15.0/examples/wasm/index.html -O examples/wasm/index.html
+wget https://raw.githubusercontent.com/bevyengine/bevy/refs/tags/v0.19.0-rc.3/examples/wasm/index.html -O examples/wasm/index.html
 wasm-bindgen --out-dir examples/wasm/target --out-name wasm_example --target web target/wasm32-unknown-unknown/debug/examples/states.wasm
 ```
 
