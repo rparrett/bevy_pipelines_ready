@@ -10,6 +10,10 @@ enum GameState {
 
 // This value should be found experimentally by logging `PipelinesReady` in your app
 // during normal use and noting the maximum value.
+//
+// There may other platform-dependant differences in the total number of pipelines.
+// Some render features may be implemented differently for Metal, or particular
+// mobile devices.
 #[cfg(not(target_arch = "wasm32"))]
 const EXPECTED_PIPELINES: usize = 43;
 // The value will likely differ on the web due to different implementations of some
