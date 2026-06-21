@@ -10,17 +10,21 @@ enum GameState {
 
 // This value should be found experimentally by logging `PipelinesReady` in your app
 // during normal use and noting the maximum value.
+//
+// There may other platform-dependant differences in the total number of pipelines.
+// Some render features may be implemented differently for Metal, or particular
+// mobile devices.
 #[cfg(not(target_arch = "wasm32"))]
-const EXPECTED_PIPELINES: usize = 35;
+const EXPECTED_PIPELINES: usize = 43;
 // The value will likely differ on the web due to different implementations of some
 // render features.
 #[cfg(all(target_arch = "wasm32", feature = "webgpu", not(feature = "webgl2")))]
-const EXPECTED_PIPELINES: usize = 22;
+const EXPECTED_PIPELINES: usize = 29;
 // Note: These features can be simplified if your app only builds for one of either
 // webgpu or webgl2. Simply use `#[cfg(target_arch = "wasm32")]`. If your app builds
 // for both, you must add these features (or similar) to your app. See `Cargo.toml`.
 #[cfg(all(target_arch = "wasm32", feature = "webgl2", not(feature = "webgpu")))]
-const EXPECTED_PIPELINES: usize = 6;
+const EXPECTED_PIPELINES: usize = 7;
 
 // You may want to wait an additional period of time or number of frames.
 //
@@ -53,7 +57,7 @@ fn setup_loading_screen(
 
     commands.spawn((
         PointLight {
-            shadows_enabled: true,
+            shadow_maps_enabled: true,
             intensity: 1_000_000.,
             ..default()
         },
