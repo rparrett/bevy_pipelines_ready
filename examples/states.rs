@@ -15,7 +15,7 @@ enum GameState {
 // Some render features may be implemented differently for Metal, or particular
 // mobile devices.
 #[cfg(not(target_arch = "wasm32"))]
-const EXPECTED_PIPELINES: usize = 43;
+const EXPECTED_PIPELINES: usize = 46;
 // The value will likely differ on the web due to different implementations of some
 // render features.
 #[cfg(all(target_arch = "wasm32", feature = "webgpu", not(feature = "webgl2")))]
